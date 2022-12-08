@@ -10,8 +10,8 @@ project ("ImGui App" LANGUAGES CXX C)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CMAKE_CXX_STANDARD 20)
 
-add_subdirectory(thirdparty/imgui)
 add_subdirectory(thirdparty/glfw)
+add_subdirectory(thirdparty/imgui)
 add_subdirectory(thirdparty/freetype)
 add_subdirectory(thirdparty/glad)
 

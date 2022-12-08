@@ -38,6 +38,7 @@
 #define TOSTR(val)						#val
 
 #if defined _DEBUG || !defined NDEBUG
+#include <cassert>
 #	define DO_IN_DEBUG(things) things
 #	define DEBUG_OR_RELEASE(deb, rel)	deb
 #	define VASSERT(cond, str)		assert(cond && str)

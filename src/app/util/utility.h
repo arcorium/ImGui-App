@@ -4,10 +4,6 @@
 #include <string>
 #include <random>
 
-#ifdef VZ_SFML
-#include <SFML/System/Vector2.hpp>
-#endif
-
 #include "core.h"
 
 namespace vz

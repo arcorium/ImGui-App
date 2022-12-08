@@ -8,7 +8,7 @@ set(VZ_IMGUI_H
 	"imstb_textedit.h"
 	"imstb_truetype.h"
 
-	"backends/imgui_impl_android.h"
+#	"backends/imgui_impl_android.h"
 	"backends/imgui_impl_dx10.h"
 	"backends/imgui_impl_dx11.h"
 	"backends/imgui_impl_dx12.h"
@@ -27,7 +27,7 @@ set(VZ_IMGUI_SRC
 	"imgui_tables.cpp"
 	"imgui_widgets.cpp"
 
-	"backends/imgui_impl_android.cpp"
+#	"backends/imgui_impl_android.cpp"
 	"backends/imgui_impl_dx10.cpp"
 	"backends/imgui_impl_dx11.cpp"
 	"backends/imgui_impl_dx12.cpp"
@@ -38,6 +38,10 @@ set(VZ_IMGUI_SRC
 	"backends/imgui_impl_win32.cpp"
 )
 
+include_directories(.)
+
 add_library("ImGui" ${VZ_IMGUI_H} ${VZ_IMGUI_SRC})
+
+target_link_libraries("ImGui" PUBLIC glfw)
 
 target_include_directories("ImGui" INTERFACE .)

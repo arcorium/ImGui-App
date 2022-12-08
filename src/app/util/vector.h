@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "vz/util/core.h"
+#include "core.h"
 
 namespace vz
 {
