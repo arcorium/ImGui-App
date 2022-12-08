@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD 20)
 add_subdirectory(thirdparty/imgui)
 add_subdirectory(thirdparty/glfw)
 add_subdirectory(thirdparty/freetype)
-include_directories(thirdparty/glad/include)
+add_subdirectory(thirdparty/glad)
 
 add_subdirectory(src/app)
 
