@@ -9,15 +9,25 @@ class Application : public vz::IApplication
 public:
     using vz::IApplication::IApplication;
 
+
+    void SettingIO(ImGuiIO& io_) override
+    {
+        io_.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+        io_.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+        //io_.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        io_.ConfigWindowsMoveFromTitleBarOnly = true;
+        io_.ConfigWindowsResizeFromEdges = true;
+        io_.IniFilename = nullptr;
+    }
+
     void Styling(::ImGuiStyle* style_) override
     {
-
     }
 
 protected:
     void Update(float dt_) override
     {
-        SetShouldClose(!ms_isOpen);
+        //SetShouldClose(!ms_isOpen);
     }
 
 private:
@@ -35,44 +45,51 @@ private:
 };
 
 
-DWORD WINAPI Main(LPVOID param_)
+int main()
 {
-    Application app{ "mizhan", {400, 400}, {0, 0} };
+    Application app{ "mizhan", {1200, 800}, {0, 0} };
 
     app.Start();
-
-    FreeLibraryAndExitThread(GetModuleHandle(nullptr), 0);
 }
 
-BOOL WINAPI DllMain(
-    HINSTANCE hinstDLL,  // handle to DLL module
-    DWORD fdwReason,     // reason for calling function
-    LPVOID lpvReserved)  // reserved
-{
-    // Perform actions based on the reason for calling.
-    switch (fdwReason)
-    {
-    case DLL_PROCESS_ATTACH:
-        CloseHandle(CreateThread(nullptr, 0, Main, nullptr, 0, nullptr));
-        break;
-
-    case DLL_THREAD_ATTACH:
-        // Do thread-specific initialization.
-        break;
-
-    case DLL_THREAD_DETACH:
-        // Do thread-specific cleanup.
-        break;
-
-    case DLL_PROCESS_DETACH:
-
-        if (lpvReserved != nullptr)
-        {
-            break; // do not do cleanup if process termination scenario
-        }
-
-        // Perform any necessary cleanup.
-        break;
-    }
-    return TRUE;  // Successful DLL_PROCESS_ATTACH.
-}
+//DWORD WINAPI Main(LPVOID param_)
+//{
+//    Application app{ "mizhan", {400, 400}, {0, 0} };
+//
+//    app.Start();
+//
+//    FreeLibraryAndExitThread(GetModuleHandle(nullptr), 0);
+//}
+//
+//BOOL WINAPI DllMain(
+//    HINSTANCE hinstDLL,  // handle to DLL module
+//    DWORD fdwReason,     // reason for calling function
+//    LPVOID lpvReserved)  // reserved
+//{
+//    // Perform actions based on the reason for calling.
+//    switch (fdwReason)
+//    {
+//    case DLL_PROCESS_ATTACH:
+//        CloseHandle(CreateThread(nullptr, 0, Main, nullptr, 0, nullptr));
+//        break;
+//
+//    case DLL_THREAD_ATTACH:
+//        // Do thread-specific initialization.
+//        break;
+//
+//    case DLL_THREAD_DETACH:
+//        // Do thread-specific cleanup.
+//        break;
+//
+//    case DLL_PROCESS_DETACH:
+//
+//        if (lpvReserved != nullptr)
+//        {
+//            break; // do not do cleanup if process termination scenario
+//        }
+//
+//        // Perform any necessary cleanup.
+//        break;
+//    }
+//    return TRUE;  // Successful DLL_PROCESS_ATTACH.
+//}

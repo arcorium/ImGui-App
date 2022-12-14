@@ -5,6 +5,7 @@
 
 #include <glad/gl.h>
 #include "imgui.h"
+#include "imgui_internal.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "GLFW/glfw3.h"
@@ -14,7 +15,6 @@ namespace vz
 	IApplication::IApplication(const std::string& title_, vz::Vec2i size_, vz::Vec2i pos_)
 		: m_window{title_, size_, pos_}
 	{
-		InitIMGUI();
 	}
 
 	IApplication::~IApplication()
@@ -26,6 +26,9 @@ namespace vz
 
 	void IApplication::Start()
 	{
+		// Lazy init
+		InitIMGUI();
+
 		auto last = std::chrono::high_resolution_clock::now();
 		auto present = std::chrono::high_resolution_clock::now();
 
@@ -90,16 +93,18 @@ namespace vz
 	{
 		IMGUI_CHECKVERSION();
 
-		auto context = ImGui::CreateContext();
+		const auto context = ImGui::CreateContext();
 
-		// Set config
-		auto& io = ImGui::GetIO();
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-		io.ConfigWindowsMoveFromTitleBarOnly = true;
-		io.ConfigWindowsResizeFromEdges = true;
-		io.IniFilename = nullptr;
+		auto& io = context->IO;
+		// Set default config
+		//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;	// enable
+		//io.ConfigWindowsMoveFromTitleBarOnly = true;
+		//io.ConfigWindowsResizeFromEdges = true;
+		//io.IniFilename = nullptr;
+
+		SettingIO(io);
 
 		ImGui_ImplGlfw_InitForOpenGL(m_window.Native(), true);
 		ImGui_ImplOpenGL3_Init("#version 130");

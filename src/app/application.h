@@ -7,6 +7,7 @@
 #include "window.h"
 
 struct ImGuiStyle;
+struct ImGuiIO;
 
 namespace vz
 {
@@ -20,6 +21,7 @@ namespace vz
 		void Start();
 
 		virtual void Styling(ImGuiStyle* style_) {}
+		virtual void SettingIO(ImGuiIO& io_) {};
 
 		void SetShouldClose(bool condition_);
 
