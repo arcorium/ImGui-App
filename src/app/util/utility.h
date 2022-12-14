@@ -79,6 +79,31 @@ namespace vz
 			return static_cast<En>(val_);
 		}
 
+		template<typename T, typename V>
+		constexpr T Cast(V data_)
+		{
+			if constexpr ((std::is_pointer_v<V> && std::is_pointer_v<T>) || (!std::is_pointer_v<V> && !std::is_pointer_v<T>))
+			{
+				// Downcast
+				if constexpr((std::is_reference_v<T> || std::is_pointer_v<T>) && (std::is_reference_v<V> || std::is_pointer_v<V>))
+				{
+					// Down Cast
+					if constexpr (std::is_base_of_v<V, T>)
+					{
+						DEBUG_PRINT("Dynamic Cast");
+						return dynamic_cast<T>(data_);
+					}
+				}
+				DEBUG_PRINT("Static Cast");
+				return static_cast<T>(data_);
+			}
+			else
+			{
+				DEBUG_PRINT("Reinterpret Cast");
+				return reinterpret_cast<T>(data_);
+			}
+		}
+
 		// Numeric simplification
 		//========================================================================================================
 		template <typename Type>

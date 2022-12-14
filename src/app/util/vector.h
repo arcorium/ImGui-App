@@ -228,6 +228,7 @@ namespace vz
 	}
 
 	using Vec2f = Vector<2, float>;
+	using Vec2d = Vector<2, double>;
 	using Vec2i = Vector<2, int>;
 	using Vec2u = Vector<2, unsigned>;
 	using Vec3f = Vector<3, float>;

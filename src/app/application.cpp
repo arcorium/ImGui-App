@@ -37,15 +37,15 @@ namespace vz
 			std::chrono::duration<float, std::ratio<1, 1>> delta = present - last;
 			last = present;
 
-			Update(delta.count());
+			Update_Impl(delta.count());
 			Draw_Impl();
 			Render();
 		}
 	}
 
-	void IApplication::Update(float dt_)
+	void IApplication::SetShouldClose(bool condition_)
 	{
-		m_window.Update(dt_);
+		m_window.SetShouldClose(condition_);
 	}
 
 	void IApplication::Render()
@@ -71,6 +71,12 @@ namespace vz
 		m_window.Render();	// in glfw swap buffer
 	}
 
+	void IApplication::Update_Impl(float dt_)
+	{
+		m_window.Update(dt_);
+		Update(dt_);
+	}
+
 	void IApplication::Draw_Impl()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
@@ -85,12 +91,15 @@ namespace vz
 		IMGUI_CHECKVERSION();
 
 		auto context = ImGui::CreateContext();
-		auto& io = ImGui::GetIO();
 
+		// Set config
+		auto& io = ImGui::GetIO();
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 		io.ConfigWindowsMoveFromTitleBarOnly = true;
+		io.ConfigWindowsResizeFromEdges = true;
+		io.IniFilename = nullptr;
 
 		ImGui_ImplGlfw_InitForOpenGL(m_window.Native(), true);
 		ImGui_ImplOpenGL3_Init("#version 130");

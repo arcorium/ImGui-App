@@ -16,5 +16,6 @@ add_subdirectory(thirdparty/freetype)
 add_subdirectory(thirdparty/glad)
 
 add_subdirectory(src/app)
+add_subdirectory(src/sandbox)
 
 # TODO: Add tests and install targets if needed.

@@ -7,8 +7,14 @@
 
 struct GLFWwindow;
 
+
 namespace vz
 {
+
+	enum class Key;
+	enum class State;
+	enum class Modifier;
+
 	class IWindow
 	{
 	public:
@@ -32,6 +38,12 @@ namespace vz
 			Draw();
 			Render_Impl();
 		}
+
+		virtual void SetShouldClose(bool condition_) = 0;
+
+	protected:
+		virtual void OnMouseMove(vz::Vec2d pos_) {}
+		virtual void OnKey(Key key_, int scancode_, State action_, Modifier mods_) {}
 
 	private:
 		virtual void HandleInput() {}
@@ -58,13 +70,18 @@ namespace vz
 		[[nodiscard]] GLFWwindow* Native() const;
 		[[nodiscard]] bool IsClosed() const;
 
+		void SetShouldClose(bool condition_) override;
+
+	protected:
+		void OnMouseMove(vz::Vec2d pos_) override;
+		void OnKey(Key key_, int scancode_, State action_, Modifier mods_) override;
+
 	private:
 		void Render_Impl() override;
 		void HandleInput() override;
 
 		void InitGLFW();
 		void InitGLAD();
-
 
 	private:
 		GLFWwindow* m_nativeWindow;

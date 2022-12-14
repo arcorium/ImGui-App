@@ -1,7 +1,9 @@
 #include "window.h"
-
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
+#include "Key.h"
+
+#include "util/enum.hpp"
 
 namespace vz
 {
@@ -57,6 +59,20 @@ namespace vz
 		return glfwWindowShouldClose(m_nativeWindow);
 	}
 
+	void CommonWindow::SetShouldClose(bool condition_)
+	{
+		glfwSetWindowShouldClose(m_nativeWindow, condition_);
+	}
+
+	void CommonWindow::OnMouseMove(vz::Vec2d pos_)
+	{
+		
+	}
+
+	void CommonWindow::OnKey(Key key_, int scancode_, State action_, Modifier mods_)
+	{
+	}
+
 	void CommonWindow::Render_Impl()
 	{
 		glfwSwapBuffers(m_nativeWindow);
@@ -81,6 +97,8 @@ namespace vz
 		glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
 		glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
 		glfwWindowHint(GLFW_FOCUS_ON_SHOW, GLFW_TRUE);
+		//glfwWindowHint(GLFW_DECORATED, false);
+		//glfwWindowHint(GLFW_VISIBLE, false);
 
 		// Window Creation
 		m_nativeWindow = glfwCreateWindow(m_size.x, m_size.y, m_title.c_str(), nullptr, nullptr);
@@ -88,6 +106,18 @@ namespace vz
 
 		glfwMakeContextCurrent(m_nativeWindow);
 		glfwSwapInterval(1);
+
+		glfwSetWindowUserPointer(m_nativeWindow, this);
+		glfwSetCursorPosCallback(m_nativeWindow, [](GLFWwindow* window, double xpos, double ypos)
+			{
+				auto ctx = static_cast<CommonWindow*>(glfwGetWindowUserPointer(window));
+				ctx->OnMouseMove(vz::Vec2d{ xpos, ypos });
+			});
+		glfwSetKeyCallback(m_nativeWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+			{
+				auto ctx = static_cast<CommonWindow*>(glfwGetWindowUserPointer(window));
+				ctx->OnKey(static_cast<Key>(key), scancode, static_cast<State>(action), static_cast<Modifier>(mods));
+			});
 	}
 
 	void CommonWindow::InitGLAD()

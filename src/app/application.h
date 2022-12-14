@@ -21,11 +21,16 @@ namespace vz
 
 		virtual void Styling(ImGuiStyle* style_) {}
 
+		void SetShouldClose(bool condition_);
+
+	protected:
+		virtual void Update(float dt_) {}
+
 	private:
 
-		void Update(float dt_);
 		void Render();
 		virtual void Draw() {}
+		void Update_Impl(float dt_);
 		void Draw_Impl();
 
 		void InitIMGUI();
